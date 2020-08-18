@@ -1,32 +1,74 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div v-if="!signedIn">
+       <amplify-authenticator></amplify-authenticator>
     </div>
-    <router-view/>
+    <div v-if="signedIn">
+      <amplify-sign-out class="signout"></amplify-sign-out>
+      <div class="container">
+        <amplify-photo-picker
+          v-bind:photoPickerConfig="photoPickerConfig"
+        ></amplify-photo-picker>
+        <amplify-s3-album path="images/"></amplify-s3-album>
+      </div>
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import { AmplifyEventBus } from 'aws-amplify-vue'
+import { Auth } from 'aws-amplify'
+import { Storage } from 'aws-amplify'
+Storage.list('images/')
+  .then(data => console.log('images from S3: ', data))
+  .catch(err => console.log('error', err))
+const photoPickerConfig = {
+path: 'images/',
+region: "us-east-2",
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+export default {
+name: 'app',
+async beforeCreate() {
+  try {
+    const user = await Auth.currentAuthenticatedUser()
+    this.signedIn = true
+  } catch (err) {
+    this.signedIn = false
   }
+  AmplifyEventBus.$on('authState', info => {
+    if (info === 'signedIn') {
+      this.signedIn = true
+    } else {
+      this.signedIn = false
+    }
+  });
+},
+data () {
+  return {
+    photoPickerConfig,
+    signedIn: false
+  }
+}
+}
+</script>
+
+<style>
+body {
+margin: 0
+}
+#app {
+font-family: 'Avenir', Helvetica, Arial, sans-serif;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+text-align: center;
+color: #2c3e50;
+}
+.container {
+padding: 40px;
+}
+.signout {
+background-color: #ededed;
+margin: 0;
+padding: 11px 0px 1px;
 }
 </style>

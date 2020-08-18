@@ -6,5 +6,11 @@
 			"dependsOn": [],
 			"customAuth": false
 		}
+	},
+	"storage": {
+		"vuedoFiles": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
 	}
 }
