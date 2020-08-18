@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-vuedo-dev-215727-authRole",
+            "UnauthRoleArn": "arn:aws:iam::993718375263:role/amplify-vuedo-dev-215727-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::993718375263:role/amplify-vuedo-dev-215727-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-vuedo-dev-215727-deployment",
+            "UnauthRoleName": "amplify-vuedo-dev-215727-unauthRole",
+            "StackName": "amplify-vuedo-dev-215727",
+            "StackId": "arn:aws:cloudformation:us-east-2:993718375263:stack/amplify-vuedo-dev-215727/f08394f0-e106-11ea-9453-0a569e9f7d94",
+            "AmplifyAppId": "d27rx4kzb8z6nz"
+        },
+        "categories": {
+            "auth": {
+                "vuedo9a6823d0": {}
+            }
+        }
+    }
+}
