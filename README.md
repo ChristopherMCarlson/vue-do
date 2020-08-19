@@ -1,5 +1,8 @@
 # vue-do
 
+### Based off
+See [Article For Reference](https://medium.com/@dabit3/how-to-build-serverless-vue-applications-with-aws-amplify-67d16c79e9d6).
+
 ## Project setup
 ```
 npm install
