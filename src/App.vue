@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <div v-if="!signedIn">
+    <router-view></router-view>
+    <!-- <div v-if="!signedIn">
        <amplify-authenticator></amplify-authenticator>
     </div>
     <div v-if="signedIn">
@@ -11,7 +12,7 @@
         ></amplify-photo-picker>
         <amplify-s3-album path="images/"></amplify-s3-album>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
