@@ -24,7 +24,6 @@ Storage.list('images/')
   .catch(err => console.log('error', err))
 const photoPickerConfig = {
 path: 'images/',
-region: "us-east-2",
 }
 export default {
 name: 'app',
