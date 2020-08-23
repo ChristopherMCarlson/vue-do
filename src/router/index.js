@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import About from '../views/About.vue'
+import Branding from '../views/Branding.vue'
 import Auth from '../views/Auth.vue'
 
 Vue.use(VueRouter)
@@ -18,9 +18,9 @@ Vue.use(VueRouter)
     component: Auth
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About,
+    path: '/branding',
+    name: 'Branding',
+    component: Branding,
     meta: { requiresAuth: true}
   }
 ]

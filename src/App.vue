@@ -7,46 +7,58 @@
     >
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Vue-Do</v-toolbar-title>
+      <v-toolbar-title>Vue-Builder</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-menu
-        left
-        bottom
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item
-            v-for="n in 5"
-            :key="n"
-            @click="() => {}"
-          >
-            <v-list-item-title>Option {{ n }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <div v-if='signedIn'>
+        <v-btn icon>
+          <v-icon>mdi-heart</v-icon>
+        </v-btn>
+  
+        <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon @click="signOut">
+                <v-icon
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >mdi-logout</v-icon>
+              </v-btn>
+            </template>
+            <span>Tooltip</span>
+          </v-tooltip>
+  
+        <v-menu
+          left
+          bottom
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+  
+          <v-list>
+            <v-list-item
+              v-for="n in 5"
+              :key="n"
+              @click="() => {}"
+            >
+              <v-list-item-title>Option {{ n }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
     </v-app-bar>
     <v-row>
       <v-col cols='12'>
-        <router-view></router-view>
+        <router-view v-on:signedInSuccessful="signedIn = true"></router-view>
       </v-col>
     </v-row>
     <!-- <div v-if="!signedIn">
@@ -91,12 +103,23 @@ async beforeCreate() {
     }
   });
 },
-data () {
-  return {
-    photoPickerConfig,
-    signedIn: false
+  data () {
+    return {
+      photoPickerConfig,
+      signedIn: false
+    }
+  },
+  methods: {
+    async signOut(){
+      try {
+        await Auth.signOut();
+        this.signedIn = false;
+        this.$router.push('auth')
+      } catch (error) {
+        console.log('error signing out: ', error);
+      }
+    },
   }
-}
 }
 </script>
 

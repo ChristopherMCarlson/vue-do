@@ -183,7 +183,8 @@ methods: {
     let password = this.passwordsignIn;
     try {
       const user = await Auth.signIn(username, password);
-      this.$router.push('home')
+      this.$emit('signedInSuccessful');
+      this.$router.push('/')
     } catch (error) {
       console.log('error signing in', error);
     }
@@ -191,7 +192,8 @@ methods: {
   async verifySignUpUser () {
     try {
       await Auth.confirmSignUp(username, code);
-      this.$router.push('home');
+      this.$emit('signedInSuccessful');
+      this.$router.push('/');
     } catch (error) {
         console.log('error confirming sign up', error);
     }
