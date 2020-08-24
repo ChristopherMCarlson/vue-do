@@ -1,26 +1,22 @@
 <template>
+  <v-container>
     <v-card
-    style="width: 25vw; margin-left: 37.5vw"
+    class="mx-auto"
+    max-width="25vw"
     outlined
     >
     <div id="signUpForm" v-if="signUp && !verify">
       <form @submit="signUpUser">
         <v-text-field
           v-model="username"
-          :error-messages="nameErrors"
           :counter="10"
           label="Username"
           required
-          @input="$v.name.$touch()"
-          @blur="$v.name.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="email"
-          :error-messages="emailErrors"
           label="E-mail"
           required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
         ></v-text-field>
         <v-text-field
         v-model="password"
@@ -28,25 +24,21 @@
         :rules="[rules.required, rules.min]"
         :type="show1 ? 'text' : 'password'"
         name="input-10-1"
-        label="Normal with hint text"
+        label="Password"
         hint="At least 8 characters"
         counter
         @click:append="show1 = !show1"
       ></v-text-field>
       <v-btn class="mr-4" @click="signUpUser">Register</v-btn>
-      <p>Already have an account? <a @click="switchForm" class="white--text">Click here to login.</a></p>
+      <p>Already have an account? <a @click="switchForm">Click here to login.</a></p>
       </form>
     </div>
     <div id="verifySignUp" v-if="signUp && verify">
         <form @submit="verifySignUpUser">
           <v-text-field
             v-model="confirmationCode"
-            :error-messages="nameErrors"
-            :counter="10"
             label="Confirmation Code"
             required
-            @input="$v.name.$touch()"
-            @blur="$v.name.$touch()"
           ></v-text-field>
         <v-btn class="mr-4" @click="verifySignUpUser">Confirm Sign Up</v-btn>
         </form>
@@ -55,12 +47,8 @@
         <form @submit="signIn">
           <v-text-field
             v-model="usernamesignIn"
-            :error-messages="nameErrors"
-            :counter="10"
             label="Username"
             required
-            @input="$v.name.$touch()"
-            @blur="$v.name.$touch()"
           ></v-text-field>
           <v-text-field
           v-model="passwordsignIn"
@@ -74,10 +62,14 @@
           @click:append="show1 = !show1"
         ></v-text-field>
         <v-btn class="mr-4" @click="signIn">Login</v-btn>
-        <p>Don't have an account? <a @click="switchForm" class="white--text">Click here to sign up.</a></p>
+        <p>Don't have an account? <a @click="switchForm">Click here to sign up.</a></p>
         </form>
       </div>
   </v-card>
+  <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+  </v-container>
 </template>
 
 <script>
@@ -125,6 +117,7 @@ data () {
     show4: false,
     signUp: true,
     verify: false,
+    overlay: false,
     rules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 8 || 'Min 8 characters',
@@ -133,20 +126,7 @@ data () {
   }
 },
 computed: {
-  nameErrors () {
-    const errors = []
-    if (!this.$v.name.$dirty) return errors
-    !this.$v.name.maxLength && errors.push('Name must be at most 10 characters long')
-    !this.$v.name.required && errors.push('Name is required.')
-    return errors
-  },
-  emailErrors () {
-    const errors = []
-    if (!this.$v.email.$dirty) return errors
-    !this.$v.email.email && errors.push('Must be valid e-mail')
-    !this.$v.email.required && errors.push('E-mail is required')
-    return errors
-  },
+
 },
 methods: {
   submit () {
@@ -179,17 +159,22 @@ methods: {
     }
   },
   async signIn () {
+    this.overlay = true;
     let username = this.usernamesignIn;
     let password = this.passwordsignIn;
     try {
       const user = await Auth.signIn(username, password);
+      this.overlay = false;
       this.$emit('signedInSuccessful');
       this.$router.push('/')
     } catch (error) {
+      this.overlay = false;
       console.log('error signing in', error);
     }
   },
   async verifySignUpUser () {
+    let username = this.username;
+    let code = this.confirmationCode;
     try {
       await Auth.confirmSignUp(username, code);
       this.$emit('signedInSuccessful');

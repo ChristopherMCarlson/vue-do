@@ -7,8 +7,11 @@
         dark
       >
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
-  
-        <v-toolbar-title>Vue-Builder</v-toolbar-title>
+        <v-toolbar-title>
+          <router-link to="/" style="color: white; text-decoration: none;">
+            Vue-Builder
+          </router-link>
+        </v-toolbar-title>
   
         <v-spacer></v-spacer>
   

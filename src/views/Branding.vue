@@ -22,7 +22,7 @@
                 align="center"
               >
               <v-col cols="6">
-                <v-text-field v-model="colors[0]" v-mask="mask" hide-details class="ma-0 pa-0" solo>
+                <v-text-field v-model="colors[0]" hide-details class="ma-0 pa-0" solo>
                     <template v-slot:append>
                       <v-menu v-model="colorPicker1" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
                         <template v-slot:activator="{ on }">
@@ -38,7 +38,7 @@
                   </v-text-field>
               </v-col>
               <v-col cols="6">
-                  <v-text-field v-model="colors[1]" v-mask="mask" hide-details class="ma-0 pa-0" solo>
+                  <v-text-field v-model="colors[1]" hide-details class="ma-0 pa-0" solo>
                       <template v-slot:append>
                         <v-menu v-model="colorPicker2" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
                           <template v-slot:activator="{ on }">
@@ -54,7 +54,7 @@
                     </v-text-field>
                 </v-col>
                 <v-col cols="6">
-                    <v-text-field v-model="colors[2]" v-mask="mask" hide-details class="ma-0 pa-0" solo>
+                    <v-text-field v-model="colors[2]" hide-details class="ma-0 pa-0" solo>
                         <template v-slot:append>
                           <v-menu v-model="colorPicker3" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
                             <template v-slot:activator="{ on }">
@@ -70,7 +70,7 @@
                       </v-text-field>
                   </v-col>
                   <v-col cols="6">
-                      <v-text-field v-model="colors[3]" v-mask="mask" hide-details class="ma-0 pa-0" solo>
+                      <v-text-field v-model="colors[3]" hide-details class="ma-0 pa-0" solo>
                           <template v-slot:append>
                             <v-menu v-model="colorPicker4" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
                               <template v-slot:activator="{ on }">
@@ -175,7 +175,10 @@
       colorPicker2: false,
       colorPicker3: false,
       colorPicker4: false,
-      mask: '!#XXXXXXXX',
+      mask1: '!#XXXXXXXX',
+      mask2: '!#XXXXXXXX',
+      mask3: '!#XXXXXXXX',
+      mask4: '!#XXXXXXXX',
       images: [
         'https://picsum.photos/200',
         'https://picsum.photos/300',
