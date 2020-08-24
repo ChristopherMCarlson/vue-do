@@ -1,79 +1,81 @@
 <template>
-  <div id="app">
-      <v-app-bar
-      color="deep-purple accent-4"
-      dense
-      dark
-    >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Vue-Builder</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <div v-if='signedIn'>
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
+  <v-app>
+    <div id="app">
+        <v-app-bar
+        color="black accent-4"
+        dense
+        dark
+      >
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
   
-        <v-tooltip bottom>
+        <v-toolbar-title>Vue-Builder</v-toolbar-title>
+  
+        <v-spacer></v-spacer>
+  
+        <div v-if='signedIn'>
+          <v-btn icon>
+            <v-icon>mdi-heart</v-icon>
+          </v-btn>
+    
+          <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon @click="signOut">
+                  <v-icon
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >mdi-logout</v-icon>
+                </v-btn>
+              </template>
+              <span>Tooltip</span>
+            </v-tooltip>
+    
+          <v-menu
+            left
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon @click="signOut">
-                <v-icon
-                  color="primary"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                >mdi-logout</v-icon>
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
-            <span>Tooltip</span>
-          </v-tooltip>
-  
-        <v-menu
-          left
-          bottom
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-            >
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </template>
-  
-          <v-list>
-            <v-list-item
-              v-for="n in 5"
-              :key="n"
-              @click="() => {}"
-            >
-              <v-list-item-title>Option {{ n }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+    
+            <v-list>
+              <v-list-item
+                v-for="n in 5"
+                :key="n"
+                @click="() => {}"
+              >
+                <v-list-item-title>Option {{ n }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+      </v-app-bar>
+      <v-row>
+        <v-col cols='12'>
+          <router-view v-on:signedInSuccessful="signedIn = true"></router-view>
+        </v-col>
+      </v-row>
+      <!-- <div v-if="!signedIn">
+         <amplify-authenticator></amplify-authenticator>
       </div>
-    </v-app-bar>
-    <v-row>
-      <v-col cols='12'>
-        <router-view v-on:signedInSuccessful="signedIn = true"></router-view>
-      </v-col>
-    </v-row>
-    <!-- <div v-if="!signedIn">
-       <amplify-authenticator></amplify-authenticator>
+      <div v-if="signedIn">
+        <amplify-sign-out class="signout"></amplify-sign-out>
+        <div class="container">
+          <amplify-photo-picker
+            v-bind:photoPickerConfig="photoPickerConfig"
+          ></amplify-photo-picker>
+          <amplify-s3-album path="images/"></amplify-s3-album>
+        </div>
+      </div> -->
     </div>
-    <div v-if="signedIn">
-      <amplify-sign-out class="signout"></amplify-sign-out>
-      <div class="container">
-        <amplify-photo-picker
-          v-bind:photoPickerConfig="photoPickerConfig"
-        ></amplify-photo-picker>
-        <amplify-s3-album path="images/"></amplify-s3-album>
-      </div>
-    </div> -->
-  </div>
+  </v-app>
 </template>
 
 <script>
