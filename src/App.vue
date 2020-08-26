@@ -58,9 +58,7 @@
 import { AmplifyEventBus } from 'aws-amplify-vue'
 import { Auth } from 'aws-amplify'
 import { Storage } from 'aws-amplify'
-Storage.list('images/')
-  .then(data => console.log('images from S3: ', data))
-  .catch(err => console.log('error', err))
+
 const photoPickerConfig = {
 path: 'images/',
 }

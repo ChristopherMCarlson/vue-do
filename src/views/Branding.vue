@@ -86,6 +86,17 @@
                         </v-text-field>
                     </v-col>
               </v-row>
+              <v-row justify="center">
+                <v-col cols="12">
+                    <v-btn
+                    text
+                    color="deep-purple accent-4"
+                    @click="saveConfiguration"
+                  >
+                    Build my Website!
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </v-col>
@@ -166,9 +177,20 @@
   </template>
 
 <script>
+  import { Auth } from 'aws-amplify'
+  import { Storage } from 'aws-amplify'
+
+
   export default {
     name: 'Branding',
 
+    async beforeCreate() {
+      let currentUserInfo = await Auth.currentUserInfo();
+      let fileName = 'userSiteConfigs/' + currentUserInfo.id + '.JSON'
+      await Storage.get('fileName')
+        .then(data => console.log('JSON from S3: ', data))
+        .catch(err => console.log('error', err))
+    },
     data: () => ({
       siteName: '',
       colorPicker1: false,
@@ -231,6 +253,20 @@
       ],
       siteType: ''
     }),
+    methods: {
+      async saveConfiguration(){
+        let currentUserInfo = await Auth.currentUserInfo();
+        let siteConfigObj = {
+          siteName: this.siteName,
+          siteType: this.siteType,
+          colors: this.colors,
+          user: currentUserInfo.id
+        }
+        let siteConfig = JSON.stringify(siteConfigObj);
+        let fileName = 'userSiteConfigs/' + currentUserInfo.id + '.JSON'
+        await Storage.put(fileName, siteConfig);
+      }
+    },
     computed: {
       colors () {
         return this.$store.state.selectedColors;
